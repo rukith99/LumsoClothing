@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8043C7E42BA4BBF300AC670E /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8043C7E32BA4BBF300AC670E /* HomeView.swift */; };
 		808A18672BA21235009F4AA7 /* LumsoClothingApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808A18662BA21235009F4AA7 /* LumsoClothingApp.swift */; };
 		808A18692BA21235009F4AA7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808A18682BA21235009F4AA7 /* ContentView.swift */; };
 		808A186B2BA2123B009F4AA7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 808A186A2BA2123B009F4AA7 /* Assets.xcassets */; };
@@ -32,6 +33,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8043C7E32BA4BBF300AC670E /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		808A18632BA21235009F4AA7 /* LumsoClothing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LumsoClothing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		808A18662BA21235009F4AA7 /* LumsoClothingApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LumsoClothingApp.swift; sourceTree = "<group>"; };
 		808A18682BA21235009F4AA7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				808A18912BA2311B009F4AA7 /* WelcomeView.swift */,
+				8043C7E32BA4BBF300AC670E /* HomeView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -244,6 +247,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				808A18692BA21235009F4AA7 /* ContentView.swift in Sources */,
+				8043C7E42BA4BBF300AC670E /* HomeView.swift in Sources */,
 				808A18922BA2311B009F4AA7 /* WelcomeView.swift in Sources */,
 				808A18672BA21235009F4AA7 /* LumsoClothingApp.swift in Sources */,
 			);
