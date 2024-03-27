@@ -6,33 +6,17 @@
 //
 
 import SwiftUI
+import Kingfisher
 
-// Define a Clothing struct to hold attributes
+
 struct ExploreView: View {
     @State private var searchString: String = ""
-    @State private var filteredItems: [ClothingItem] = []
+    @StateObject var clothingViewModel = ClothingViewModel() // Creating instance of ClothingViewModel
     @State private var isAscendingOrder: Bool = false
     @State private var isSorted: Bool = false
     @State private var selectedItem: ClothingItem? = nil
-    @State private var isModalPresented: Bool = false // New state for the presenting modal
-    @ObservedObject var cartManager: CartManager // Injecting CartManager from here
-    
-    // Sample search items
-    let searchItems: [ClothingItem] = [
-        ClothingItem(title: "Polo", description: "High-quality polo shirt", colors: ["Red", "Blue", "Green"], sizes: ["S", "M", "L"], price: 29.99, images: ["polo_red", "polo_blue", "polo_green"]),
-        ClothingItem(title: "Pants", description: "Comfortable pants", colors: ["Black", "Brown", "Gray"], sizes: ["S", "M", "L"], price: 49.99, images: ["pants_black", "pants_brown", "pants_gray"]),
-        ClothingItem(title: "Dresses", description: "Elegant dresses", colors: ["White", "Pink", "Yellow"], sizes: ["S", "M", "L"], price: 59.99, images: ["dress_white", "dress_pink", "dress_yellow"]),
-        ClothingItem(title: "Shoes", description: "Stylish shoes", colors: ["Black", "Brown", "Blue"], sizes: ["8", "9", "10"], price: 79.99, images: ["shoes_black", "shoes_brown", "shoes_blue"]),
-        ClothingItem(title: "Accessories", description: "Fashion accessories", colors: ["Gold", "Silver", "Rose Gold"], sizes: ["One Size"], price: 19.99, images: ["accessories_gold", "accessories_silver", "accessories_rosegold"])
-    ]
-    
-    var sortedItems: [ClothingItem] {
-        if isAscendingOrder {
-            return filteredItems.sorted { $0.price < $1.price }
-        } else {
-            return filteredItems.sorted { $0.price > $1.price }
-        }
-    }
+    @State private var isModalPresented: Bool = false // New state for presenting modal
+    @ObservedObject var cartManager: CartManager // Injecting CartManager
     
     var body: some View {
         NavigationView {
@@ -59,7 +43,7 @@ struct ExploreView: View {
                     }
                     ScrollView{
                         // Filtered search items
-                        SearchItemsView(searchItems: isSorted ? sortedItems : filteredItems, selectedItem: $selectedItem, isModalPresented: $isModalPresented, cartManager: cartManager)
+                        SearchItemsView(searchItems: isSorted ? sortedItems : clothingViewModel.clothingItems, selectedItem: $selectedItem, isModalPresented: $isModalPresented, cartManager: cartManager)
                             .transition(.opacity)
                         
                         Spacer()
@@ -68,7 +52,7 @@ struct ExploreView: View {
                 .padding()
             }
             .onAppear {
-                filterItems()
+                clothingViewModel.fetchData() // Fetching data when view appears
             }
             .onChange(of: searchString) { _ in
                 filterItems()
@@ -87,12 +71,22 @@ struct ExploreView: View {
     
     private func filterItems() {
         if searchString.isEmpty {
-            filteredItems = searchItems
+            clothingViewModel.fetchData() // Refetching data when search string is empty
         } else {
-            filteredItems = searchItems.filter { $0.title.lowercased().contains(searchString.lowercased()) }
+            clothingViewModel.clothingItems = clothingViewModel.clothingItems.filter { $0.title.lowercased().contains(searchString.lowercased()) }
+        }
+    }
+    
+    var sortedItems: [ClothingItem] {
+        if isAscendingOrder {
+            return clothingViewModel.clothingItems.sorted { $0.price < $1.price }
+        } else {
+            return clothingViewModel.clothingItems.sorted { $0.price > $1.price }
         }
     }
 }
+
+
 
 struct SearchItemsView: View {
     let searchItems: [ClothingItem]
@@ -106,22 +100,37 @@ struct SearchItemsView: View {
                 .font(.headline)
                 .padding(.bottom, 5)
             
-            // To display two columns
+            // Display two columns
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
                 ForEach(searchItems) { item in
                     VStack {
-                        RoundedRectangle(cornerRadius: 20)
-                            .foregroundColor(Color.blue)
-                            .frame(height: 180)
-                            .overlay(
-                                Text(item.title)
-                                    .foregroundColor(Color.white)
-                            )
-                            .onTapGesture {
-                                // Present modal when item tapped
-                                selectedItem = item
-                                isModalPresented = true
-                            }
+                        if let imageUrlString = item.images.first,
+                           let imageUrl = URL(string: imageUrlString) {
+                            KFImage(imageUrl) // Use KFImage instead of Image
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 180)
+                                .cornerRadius(20)
+                                .overlay(
+                                    Text(item.title)
+                                        .foregroundColor(Color.white)
+                                )
+                                .onTapGesture {
+                                    // Present modal when item tapped
+                                    selectedItem = item
+                                    isModalPresented = true
+                                }
+                        } else {
+                            // Placeholder if image URL is invalid or missing
+                            Rectangle()
+                                .fill(Color.gray)
+                                .frame(height: 180)
+                                .cornerRadius(20)
+                                .overlay(
+                                    Text(item.title)
+                                        .foregroundColor(Color.white)
+                                )
+                        }
                         Text("Price: $\(item.price)")
                         Text("Size: \(item.sizes.joined(separator: ", "))")
                     }
@@ -131,6 +140,7 @@ struct SearchItemsView: View {
         .padding(.top)
     }
 }
+
 
 struct SearchArea: View {
     @Binding var searchString: String

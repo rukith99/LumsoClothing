@@ -33,9 +33,9 @@ struct DetailView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
                     ForEach(0..<clothingItem.colors.count, id: \.self) { index in
-                        ColorButton(color: clothingItem.colors[index], isSelected: index == selectedColorIndex, action: {
+                        ColorButton(color: clothingItem.colors[index], isSelected: index == selectedColorIndex) {
                             selectedColorIndex = index
-                        }, clothingItem: clothingItem) // Pass clothingItem here
+                        }
                     }
                 }
             }
@@ -91,17 +91,9 @@ struct ColorButton: View {
     var color: String
     var isSelected: Bool
     var action: () -> Void
-    var clothingItem: ClothingItem // Add clothingItem as a parameter
     
     var body: some View {
-        Button(action: {
-            // Call the action provided
-            action()
-            
-            // Optionally, you can handle adding item to cart here if needed
-            let newItem = CartItem(title: clothingItem.title, size: clothingItem.sizes[0], color: color, price: clothingItem.price)
-            print("Item added to cart: \(newItem)")
-        }) {
+        Button(action: action) {
             Text(color)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
@@ -112,17 +104,11 @@ struct ColorButton: View {
     }
 }
 
-struct ClothingItem: Identifiable {
-    var id = UUID() // Add an id property conforming to Identifiable
-    var title: String
-    var description: String
-    var colors: [String]
-    var sizes: [String]
-    var price: Double
-    var images: [String]
-}
+
+
 
 #Preview {
     let cartManager = CartManager()
-    return DetailView(clothingItem: ClothingItem(title: "Sample Item", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", colors: ["Red", "Green", "Blue"], sizes: ["S", "M", "L"], price: 7888, images: ["red_shirt", "green_shirt", "blue_shirt"]), cartManager: cartManager)
+    let sampleItem = ClothingItem(title: "Sample Item", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", colors: ["Red", "Green", "Blue"], sizes: ["S", "M", "L"], price: 7888, images: ["red_shirt", "green_shirt", "blue_shirt"], dateAdded: Date(), gender: "Male")
+    return DetailView(clothingItem: sampleItem, cartManager: cartManager)
 }
