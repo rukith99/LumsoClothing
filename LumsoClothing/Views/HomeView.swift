@@ -33,7 +33,7 @@ struct HomeView: View {
     }
 }
 
-// Sub Views
+// Sub View
 struct HeaderView: View {
     var body: some View {
         VStack {
@@ -49,8 +49,17 @@ struct HeaderView: View {
                     HStack {
                         VStack(alignment: .leading){
                             Text("New")
+                                .font(.system(size: 20))
+                                .fontWeight(.medium)
+                                .opacity(0.6)
+
                             Text("Winter")
+                                .font(.system(size: 38))
+                                .fontWeight(.bold)
+
                             Text("Collection")
+                                .font(.system(size: 25))
+                                .fontWeight(.semibold)
                             HStack{
                                 Group{
                                     Circle()
@@ -63,7 +72,7 @@ struct HeaderView: View {
                                 .colorInvert()
                             }
                         }
-                        .padding(.horizontal)
+                        .padding(.leading , 30)
                         Spacer()
                     }
                 }
@@ -81,13 +90,15 @@ struct CategoryView: View {
             HStack{
                 VStack(alignment: .leading){
                     Text("Categories")
+                        .font(.system(size: 20))
+                        .fontWeight(.semibold)
+                        .padding(.leading,30)
                     ScrollView(.horizontal,  showsIndicators: false){
-                        HStack{
-                            CategoryItem()
-                            CategoryItem()
-                            CategoryItem()
-                            CategoryItem()
-                            
+                        HStack(spacing: 15){
+                            CategoryItem(imageName: "Men")
+                            CategoryItem(imageName: "Women")
+                            //CategoryItem(imageName: "Kids")
+                            //CategoryItem(imageName: "Shoes")
                         }
                         .padding(.leading)
                     }
@@ -106,12 +117,16 @@ struct TrendingView: View {
             HStack{
                 VStack(alignment: .leading){
                     Text("Trending")
+                        .font(.system(size: 20))
+                        .fontWeight(.semibold)
+                        .padding(.leading,30)
                     ScrollView(.horizontal,  showsIndicators: false){
                         HStack(spacing : 15){
-                            TrendingItem()
-                            TrendingItem()
-                            TrendingItem()
-                            TrendingItem()
+                            TrendingItem(imageName: "Basic B&W Stipes top", itemName: "Basic B&W Stipes top", price: "2500.00")
+                            TrendingItem(imageName: "Basic B&W Stipes top", itemName: "Round Neck Oversized", price: "2900.00")
+                            TrendingItem(imageName: "High Crop Top", itemName: "High Crop Top", price: "1500.00")
+                            TrendingItem(imageName: "Men High Tank", itemName: "Men High Tank", price: "3100.00")
+                         
                             
                         }
                         .padding(.leading)
@@ -128,7 +143,7 @@ struct TrendingView: View {
 }
 
 
-//Components
+// Search bar
 struct SearchItem: View{
     var body: some View{
             HStack {
@@ -136,29 +151,56 @@ struct SearchItem: View{
                 Spacer()
                 Image(systemName: "magnifyingglass")
             }
+            .opacity(0.5)
             .padding(.horizontal)
             .padding(.vertical, 10)
             .background(Color.white.opacity(0.7))
             .cornerRadius(10)
             .padding()
+            .padding(.horizontal)
+
             
 
        
     }
 }
 
+import SwiftUI
+
 struct CategoryItem: View {
-    var body: some View{
-        VStack(alignment : .center){
-            Circle()
-                .frame(height: 100)
-            Text("Women")
+    
+    @State var imageName : String
+    
+    var body: some View {
+        ZStack {
+            // Adding background Image
+            VStack{
+                Image(imageName)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .edgesIgnoringSafeArea(.all)
+                    .frame(height: 100)
+                Text(imageName)
+                    .padding(.top,5)
+                    .fontWeight(.semibold)
+                    .opacity(0.7)
+            }
             
+            
+            .padding(10)
         }
+
     }
 }
 
+
 struct TrendingItem: View {
+    @State var imageName : String
+    @State var itemName : String
+    @State var price : String
+
+
+
     var body: some View{
         VStack(alignment : .leading){
             VStack{
@@ -167,9 +209,14 @@ struct TrendingItem: View {
             .frame(width: 150, height: 180)
             .background(Color.gray)
             .cornerRadius(15)
-            Text("Women")
-            Text("Rs 12000")
-            
+            Text(itemName)
+                .lineLimit(2)
+                .padding(.trailing)
+                .frame(width: 150)
+                .opacity(0.6)
+            Text("Rs.\(price)")
+                .font(.system(size: 20))
+                .bold()
             
             
         }
@@ -177,7 +224,6 @@ struct TrendingItem: View {
 }
 
 
-
 #Preview {
-    HomeView()
+    HomeView()
 }
