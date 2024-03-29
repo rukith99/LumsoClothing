@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct WelcomeView: View {
+    @Binding var isAppLaunchedBefore: Bool
+
     var body: some View {
         ZStack {
             Image("AppBackground")
@@ -30,7 +32,8 @@ struct WelcomeView: View {
                 Spacer()
                 
                 Button(action: {
-                    
+                    isAppLaunchedBefore = true
+
                 }, label: {
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
@@ -54,10 +57,4 @@ struct WelcomeView: View {
             
         }
     }
-}
-
-
-
-#Preview {
-    WelcomeView()
 }

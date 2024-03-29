@@ -8,25 +8,41 @@
 import SwiftUI
 
 struct ContentView: View {
-@State private var selectedTab = 0
-@StateObject private var cartManager = CartManager() // Create a single instance of CartManager
+    @State private var selectedTab = 0
+    @StateObject private var cartManager = CartManager() // Create a single instance of CartManager
+    @State private var isAppLaunchedBefore = false // Track whether the app has been launched before
     
     var body: some View {
-        TabView(selection: $selectedTab) {
-            ExploreView(cartManager: cartManager) // Pass the shared cartManager instance
-                .tabItem {
-                    Label("Explore", systemImage: "magnifyingglass")
+        Group {
+            if isAppLaunchedBefore {
+                // If the app has been launched before, show the ContentView
+                TabView(selection: $selectedTab) {
+                    HomeView() // Pass the shared cartManager instance
+                        .tabItem {
+                            Label("Home", systemImage: "house")
+                        }
+                        .tag(0)
+                    
+                    ExploreView(cartManager: cartManager) // Pass the shared cartManager instance
+                        .tabItem {
+                            Label("Explore", systemImage: "magnifyingglass")
+                        }
+                        .tag(1)
+                    
+                    CartView(cartManager: cartManager) // Pass the same cartManager instance
+                        .tabItem {
+                            Label("Cart", systemImage: "cart")
+                        }
+                        .tag(2)
                 }
-                .tag(0)
-            
-            CartView(cartManager: cartManager) // Pass the same cartManager instance
-                .tabItem {
-                    Label("Cart", systemImage: "cart")
-                }
-                .tag(1)
+            } else {
+                // If the app is launched for the first time, show the WelcomeView as splash screen
+                WelcomeView(isAppLaunchedBefore: $isAppLaunchedBefore)
+            }
         }
     }
 }
+
 
 #Preview {
     ContentView()

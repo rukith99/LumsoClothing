@@ -29,8 +29,10 @@ class ClothingViewModel: ObservableObject {
                         dateFormatter.dateFormat = "yyyy-MM-dd"
                         let dateAdded = dateFormatter.date(from: dateString) ?? Date()
                         let gender = item["gender"] as? String ?? ""
+                        let category = item["category"] as? String ?? ""
+
                         
-                        return ClothingItem(id: id, title: title, description: description, colors: colors, sizes: sizes, price: price, images: images, dateAdded: dateAdded, gender: gender)
+                        return ClothingItem(id: id, title: title, description: description, colors: colors, sizes: sizes, price: price, images: images, dateAdded: dateAdded, gender: gender, category: category)
                     }
                 }
             case .failure(let error):

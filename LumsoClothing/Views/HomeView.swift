@@ -97,8 +97,8 @@ struct CategoryView: View {
                         HStack(spacing: 15){
                             CategoryItem(imageName: "Men")
                             CategoryItem(imageName: "Women")
-                            //CategoryItem(imageName: "Kids")
-                            //CategoryItem(imageName: "Shoes")
+                            CategoryItem(imageName: "Kids")
+                            CategoryItem(imageName: "Shoes")
                         }
                         .padding(.leading)
                     }

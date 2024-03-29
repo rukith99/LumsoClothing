@@ -6,11 +6,14 @@
 //
 
 import SwiftUI
+import Kingfisher
+
 
 struct DetailView: View {
     var clothingItem: ClothingItem
-    @State private var selectedColorIndex = 0
-    @ObservedObject var cartManager: CartManager // Injecting CartManager
+    @State private var selectedColorIndex = 1
+    @State private var selectedSize: String? = nil
+    @ObservedObject var cartManager: CartManager
     
     var selectedColor: String {
         clothingItem.colors[selectedColorIndex]
@@ -20,8 +23,31 @@ struct DetailView: View {
         clothingItem.images[selectedColorIndex]
     }
     
+    private func isSizeSelected(_ size: String) -> Bool {
+        return selectedSize == size
+    }
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
+           
+            KFImage(URL(string: selectedImage))
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(maxWidth: .infinity)
+                .frame(height: 400)
+            HStack{
+                Spacer()
+                HStack(spacing: 3) {
+                    ForEach(0..<clothingItem.colors.count, id: \.self) { index in
+                        ColorButton(color: clothingItem.colors[index], isSelected: index == selectedColorIndex) {
+                            selectedColorIndex = index
+                        }
+                    }
+                }
+                Spacer()
+
+            }
+            
             Text(clothingItem.title)
                 .font(.title)
             
@@ -29,48 +55,40 @@ struct DetailView: View {
                 .font(.body)
                 .foregroundColor(.gray)
             
-            // Display color options
-            ScrollView(.horizontal, showsIndicators: false) {
+           
+            
+            HStack {
                 HStack(spacing: 8) {
-                    ForEach(0..<clothingItem.colors.count, id: \.self) { index in
-                        ColorButton(color: clothingItem.colors[index], isSelected: index == selectedColorIndex) {
-                            selectedColorIndex = index
+                    ForEach(clothingItem.sizes, id: \.self) { size in
+                        Button(action: {
+                            selectedSize = size
+                        }) {
+                            Text(size)
+                                .padding()
+                                .foregroundColor(isSizeSelected(size) ? .white : .black)
+                                .background(
+                                    Circle()
+                                        .stroke(Color.black, lineWidth: 2)
+                                        .background(isSizeSelected(size) ? Color.black : Color.clear)
+                                )
+                                .clipShape(Circle())
                         }
                     }
                 }
+                Spacer()
+                
             }
             
-            // Display selected image
-            Image(selectedImage)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
             
-            // Display size options
-            HStack(spacing: 8) {
-                ForEach(clothingItem.sizes, id: \.self) { size in
-                    Button(action: {
-                        // Handle size selection
-                    }) {
-                        Text(size)
-                            .padding()
-                            .background(Color.gray)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
-                    }
-                }
-            }
-            
-            // Display price
-            Text("$\(clothingItem.price)")
-                .font(.title)
-                .foregroundColor(.green)
+            Text("Rs \(String(format: "%.2f", clothingItem.price))")
+                .font(.system(size: 30))
+                .fontWeight(.bold)
             
             Spacer()
             
-            // Add to cart button
             Button(action: {
-                // Handle adding item to cart
-                let newItem = CartItem(title: clothingItem.title, size: clothingItem.sizes[0], color: clothingItem.colors[selectedColorIndex], price: clothingItem.price)
+                guard let selectedSize = selectedSize else { return }
+                let newItem = CartItem(title: clothingItem.title, size: selectedSize, color: clothingItem.colors[selectedColorIndex], price: clothingItem.price)
                 cartManager.addToCart(item: newItem)
             }) {
                 Text("Add to Cart")
@@ -78,14 +96,15 @@ struct DetailView: View {
                     .foregroundColor(.white)
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(Color.blue)
-                    .cornerRadius(10)
+                    .background(Color.black)
+                    .cornerRadius(100)
             }
         }
         .padding()
         .navigationBarTitle(Text("Product Detail"), displayMode: .inline)
     }
 }
+
 
 struct ColorButton: View {
     var color: String
@@ -94,21 +113,24 @@ struct ColorButton: View {
     
     var body: some View {
         Button(action: action) {
-            Text(color)
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
-                .foregroundColor(isSelected ? .white : .black)
-                .background(isSelected ? Color.blue : Color.gray)
-                .cornerRadius(8)
+            VStack {
+                Circle()
+                    .foregroundColor(Color(color))
+                    .frame(width: 24, height: 24)
+                    .overlay(
+                        Circle()
+                            .stroke(Color.black, lineWidth: isSelected ? 3 : 0)
+                    )
+                    .padding(8)
+                
+            }
+           
         }
     }
 }
 
-
-
-
 #Preview {
     let cartManager = CartManager()
-    let sampleItem = ClothingItem(title: "Sample Item", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", colors: ["Red", "Green", "Blue"], sizes: ["S", "M", "L"], price: 7888, images: ["red_shirt", "green_shirt", "blue_shirt"], dateAdded: Date(), gender: "Male")
+    let sampleItem = ClothingItem(title: "Sample Item", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", colors: ["red", "green", "blue"], sizes: ["S", "M", "L"], price: 7888, images: ["testImg 3", "testImg 2", "testImg"], dateAdded: Date(), gender: "Male", category: "top")
     return DetailView(clothingItem: sampleItem, cartManager: cartManager)
 }

@@ -17,4 +17,5 @@ struct ClothingItem: Identifiable {
     var images: [String]
     var dateAdded: Date
     var gender: String
+    var category: String
 }

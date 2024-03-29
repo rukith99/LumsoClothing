@@ -11,22 +11,43 @@ import Kingfisher
 
 struct ExploreView: View {
     @State private var searchString: String = ""
-    @StateObject var clothingViewModel = ClothingViewModel() // Creating instance of ClothingViewModel
+    @StateObject var clothingViewModel = ClothingViewModel()
     @State private var isAscendingOrder: Bool = false
     @State private var isSorted: Bool = false
     @State private var selectedItem: ClothingItem? = nil
-    @State private var isModalPresented: Bool = false // New state for presenting modal
-    @ObservedObject var cartManager: CartManager // Injecting CartManager
+    @State private var isModalPresented: Bool = false
+    @ObservedObject var cartManager: CartManager
+    
+    // Selected category
+    @State private var selectedCategory: String? = nil
+    
+    // Categories
+    let categories = ["All", "Tops", "Shorts", "T Shirts"]
     
     var body: some View {
         NavigationView {
             ZStack {
                 VStack(alignment: .leading) {
-                    HStack {
-                        Text("Explore")
-                        Spacer()
-                    }
+                  
                     SearchArea(searchString: $searchString)
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 10) {
+                            ForEach(categories, id: \.self) { category in
+                                Button(action: {
+                                    selectedCategory = category
+                                    filterItems()
+                                }) {
+                                    Text(category)
+                                        .padding(.horizontal, 10)
+                                        .padding(.vertical, 5)
+                                        .background(selectedCategory == category ? Color.blue : Color.gray)
+                                        .foregroundColor(.white)
+                                        .cornerRadius(10)
+                                }
+                            }
+                        }
+                    }
                     
                     HStack {
                         Button(action: {
@@ -35,15 +56,17 @@ struct ExploreView: View {
                             filterItems()
                         }) {
                             Text("Sort by Price \(isAscendingOrder ? "Low to High" : "High to Low")")
-                                .padding()
+                                .padding(5)
+                                .padding(.horizontal)
                                 .background(isSorted ? Color.blue : Color.gray)
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
+
                         }
                     }
                     ScrollView{
                         // Filtered search items
-                        SearchItemsView(searchItems: isSorted ? sortedItems : clothingViewModel.clothingItems, selectedItem: $selectedItem, isModalPresented: $isModalPresented, cartManager: cartManager)
+                        SearchItemsView(searchItems: isSorted ? sortedItems : filteredItems, selectedItem: $selectedItem, isModalPresented: $isModalPresented, cartManager: cartManager)
                             .transition(.opacity)
                         
                         Spacer()
@@ -84,7 +107,16 @@ struct ExploreView: View {
             return clothingViewModel.clothingItems.sorted { $0.price > $1.price }
         }
     }
+    
+    var filteredItems: [ClothingItem] {
+        if let category = selectedCategory, category != "All" {
+            return clothingViewModel.clothingItems.filter { $0.category == category }
+        } else {
+            return clothingViewModel.clothingItems
+        }
+    }
 }
+
 
 
 
@@ -96,11 +128,7 @@ struct SearchItemsView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Search Items")
-                .font(.headline)
-                .padding(.bottom, 5)
             
-            // Display two columns
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
                 ForEach(searchItems) { item in
                     VStack {
@@ -111,10 +139,6 @@ struct SearchItemsView: View {
                                 .scaledToFit()
                                 .frame(height: 180)
                                 .cornerRadius(20)
-                                .overlay(
-                                    Text(item.title)
-                                        .foregroundColor(Color.white)
-                                )
                                 .onTapGesture {
                                     // Present modal when item tapped
                                     selectedItem = item
@@ -131,8 +155,14 @@ struct SearchItemsView: View {
                                         .foregroundColor(Color.white)
                                 )
                         }
-                        Text("Price: $\(item.price)")
-                        Text("Size: \(item.sizes.joined(separator: ", "))")
+                        Text("\(item.title)")
+                            .font(.system(size: 20))
+                            .fontWeight(.semibold)
+                            .multilineTextAlignment(.center)
+                        Text("Rs \(String(format: "%.2f", item.price))")
+                            .padding(.bottom)
+
+                        
                     }
                 }
             }
@@ -155,7 +185,7 @@ struct SearchArea: View {
         .padding(.vertical, 10)
         .background(Color.black.opacity(0.1))
         .cornerRadius(10)
-        .padding(.top)
+        .padding(.bottom)
     }
 }
 
