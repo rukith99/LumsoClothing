@@ -8,15 +8,36 @@
 import SwiftUI
 
 
-struct CartItem {
-    var title: String
-    var size: String
-    var color: String
-    var price: Double
-}
-
 class CartManager: ObservableObject {
-    @Published var items: [CartItem] = []
+    @Published var items: [CartItem] = [] {
+        didSet {
+            saveCartData()
+        }
+    }
+    
+    init() {
+        loadCartData()
+    }
+    
+    private let cartKey = "CartItems"
+    
+    private func saveCartData() {
+        do {
+            let data = try JSONEncoder().encode(items)
+            UserDefaults.standard.set(data, forKey: cartKey)
+        } catch {
+            print("Error saving cart data: \(error.localizedDescription)")
+        }
+    }
+    
+    private func loadCartData() {
+        guard let data = UserDefaults.standard.data(forKey: cartKey) else { return }
+        do {
+            items = try JSONDecoder().decode([CartItem].self, from: data)
+        } catch {
+            print("Error loading cart data: \(error.localizedDescription)")
+        }
+    }
     
     func addToCart(item: CartItem) {
         items.append(item)

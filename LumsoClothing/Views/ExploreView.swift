@@ -15,7 +15,6 @@ struct ExploreView: View {
     @State private var isAscendingOrder: Bool = false
     @State private var isSorted: Bool = false
     @State private var selectedItem: ClothingItem? = nil
-    @State private var isModalPresented: Bool = false
     @ObservedObject var cartManager: CartManager
     
     // Selected category
@@ -25,10 +24,9 @@ struct ExploreView: View {
     let categories = ["All", "Tops", "Shorts", "Pants", "Accessories"]
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 VStack(alignment: .leading) {
-                  
                     SearchArea(searchString: $searchString)
                     
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -61,12 +59,12 @@ struct ExploreView: View {
                                 .background(isSorted ? Color.blue : Color.gray)
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
-
                         }
                     }
+                    
                     ScrollView{
                         // Filtered search items
-                        SearchItemsView(searchItems: isSorted ? sortedItems : filteredItems, selectedItem: $selectedItem, isModalPresented: $isModalPresented, cartManager: cartManager)
+                        SearchItemsView(searchItems: isSorted ? sortedItems : filteredItems, cartManager: cartManager)
                             .transition(.opacity)
                         
                         Spacer()
@@ -82,14 +80,7 @@ struct ExploreView: View {
             }
             .navigationTitle("Explore")
         }
-        .sheet(isPresented: $isModalPresented, onDismiss: {
-            // Reset selected item when modal dismissed
-            selectedItem = nil
-        }) {
-            if let item = selectedItem {
-                DetailView(clothingItem: item, cartManager: cartManager)
-            }
-        }
+        .tint(.black)
     }
     
     private func filterItems() {
@@ -117,52 +108,48 @@ struct ExploreView: View {
     }
 }
 
-
-
-
 struct SearchItemsView: View {
     let searchItems: [ClothingItem]
-    @Binding var selectedItem: ClothingItem?
-    @Binding var isModalPresented: Bool
     @ObservedObject var cartManager: CartManager
     
     var body: some View {
         VStack(alignment: .leading) {
-            
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
                 ForEach(searchItems) { item in
-                    VStack {
-                        if let imageUrlString = item.images.first,
-                           let imageUrl = URL(string: imageUrlString) {
-                            KFImage(imageUrl) // Use KFImage instead of Image
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 180)
-                                .cornerRadius(20)
-                                .onTapGesture {
-                                    // Present modal when item tapped
-                                    selectedItem = item
-                                    isModalPresented = true
-                                }
-                        } else {
-                            // Placeholder if image URL is invalid or missing
-                            Rectangle()
-                                .fill(Color.gray)
-                                .frame(height: 180)
-                                .cornerRadius(20)
-                                .overlay(
-                                    Text(item.title)
-                                        .foregroundColor(Color.white)
-                                )
+                    NavigationLink(destination: DetailView(clothingItem: item, cartManager: cartManager)) {
+                        VStack {
+                            if let imageUrlString = item.images.first, let imageUrl = URL(string: imageUrlString) {
+                                KFImage(imageUrl) // Use KFImage instead of Image
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 180)
+                                    .cornerRadius(20)
+                            } else {
+                                // Placeholder if image URL is invalid or missing
+                                Rectangle()
+                                    .fill(Color.gray)
+                                    .frame(height: 180)
+                                    .cornerRadius(20)
+                                    .overlay(
+                                        Text(item.title)
+                                            .foregroundColor(Color.white)
+                                    )
+                            }
+                            HStack{
+                                Text("\(item.title)")
+                                    .font(.system(size: 20))
+                                    .fontWeight(.semibold)
+                                    .multilineTextAlignment(.leading)
+                                Spacer()
+                            }
+                            HStack{
+                                Text("Rs \(String(format: "%.2f", item.price))")
+                                    .padding(.bottom)
+                                    .multilineTextAlignment(.leading)
+                                Spacer()
+                            }
+                            
                         }
-                        Text("\(item.title)")
-                            .font(.system(size: 20))
-                            .fontWeight(.semibold)
-                            .multilineTextAlignment(.center)
-                        Text("Rs \(String(format: "%.2f", item.price))")
-                            .padding(.bottom)
-
-                        
                     }
                 }
             }
@@ -170,7 +157,6 @@ struct SearchItemsView: View {
         .padding(.top)
     }
 }
-
 
 struct SearchArea: View {
     @Binding var searchString: String
@@ -188,6 +174,7 @@ struct SearchArea: View {
         .padding(.bottom)
     }
 }
+
 
 
 #Preview {

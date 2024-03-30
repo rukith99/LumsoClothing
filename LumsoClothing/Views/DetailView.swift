@@ -13,7 +13,7 @@ import SimpleToast
 struct DetailView: View {
     var clothingItem: ClothingItem
     @State private var selectedColorIndex = 1
-    @State private var selectedSize: String? = nil
+    @State private var selectedSize: String = ""
     @State private var showToast = false
     @State private var value = 0
     @ObservedObject var cartManager: CartManager
@@ -31,12 +31,12 @@ struct DetailView: View {
     }
     
     private let toastOptions = SimpleToastOptions(
-        alignment: .top,
-        hideAfter: 2,
-        backdropColor: Color.black.opacity(0.2),
-        animation: .default,
-        modifierType: .slide
-    )
+            alignment: .top,
+            hideAfter: 2,
+            backdropColor: Color.black.opacity(0.2),
+            animation: .default,
+            modifierType: .slide
+        )
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -45,7 +45,7 @@ struct DetailView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(maxWidth: .infinity)
-                .frame(height: 400)
+                .frame(height: 260)
             HStack{
                 Spacer()
                 HStack(spacing: 3) {
@@ -98,17 +98,15 @@ struct DetailView: View {
             Spacer()
             
             Button(action: {
+                //guard let selectedSize = selectedSize else { return }
                 
-                guard let selectedSize = selectedSize else { return }
-                
-                if selectedSize != nil {
+                if selectedSize != "" {
                     let newItem = CartItem(title: clothingItem.title, size: selectedSize, color: clothingItem.colors[selectedColorIndex], price: clothingItem.price)
                     cartManager.addToCart(item: newItem)
                     showToast.toggle()
                 } else {
                     showToast.toggle()
                 }
-                
             }) {
                 Text("Add to Cart")
                     .font(.headline)
@@ -120,20 +118,25 @@ struct DetailView: View {
             }
         }
         .simpleToast(isPresented: $showToast, options: toastOptions, onDismiss: {
-            value += 1
-        }) {
-            HStack {
-                Image(systemName: "checkmark.circle.fill").foregroundColor(.green)
-                Text(selectedSize  != nil ? "Product added to cart successfully!" : "Please select a size").bold()
-            }
-            .padding(20)
-            .background(Color.white)
-            .foregroundColor(Color.black)
-            .cornerRadius(14)
-            .shadow(color:.black.opacity(0.2), radius: 14, x:0, y:4)
-        }
+                    value += 1
+                }) {
+                    HStack {
+                        if selectedSize != "" {
+                            Image(systemName: "checkmark.circle.fill").foregroundColor(.green)
+                            Text("Product added to cart successfully!").bold()
+                        } else {
+                            Image(systemName: "exclamationmark.circle.fill").foregroundColor(.red)
+                            Text("Please select a size!").bold()
+                        }
+                        
+                    }
+                    .padding(20)
+                    .background(Color.white)
+                    .foregroundColor(Color.black)
+                    .cornerRadius(14)
+                    .shadow(color:.black.opacity(0.2), radius: 14, x:0, y:4)
+                }
         .padding()
-        .navigationBarTitle(Text("Product Detail"), displayMode: .inline)
     }
 }
 

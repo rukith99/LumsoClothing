@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		80279C882BB0958900E2F6D2 /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80279C872BB0958900E2F6D2 /* CartView.swift */; };
+		803903092BB85CDB00582190 /* CartModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803903082BB85CDB00582190 /* CartModel.swift */; };
 		803A2D102BB7FD4C0027601B /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803A2D0F2BB7FD4B0027601B /* UserView.swift */; };
 		803A67592BB495A8009B8659 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 803A67582BB495A8009B8659 /* Kingfisher */; };
 		803A67602BB49771009B8659 /* ClothingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803A675F2BB49771009B8659 /* ClothingViewModel.swift */; };
@@ -44,6 +45,7 @@
 
 /* Begin PBXFileReference section */
 		80279C872BB0958900E2F6D2 /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
+		803903082BB85CDB00582190 /* CartModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartModel.swift; sourceTree = "<group>"; };
 		803A2D0F2BB7FD4B0027601B /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		803A675F2BB49771009B8659 /* ClothingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClothingViewModel.swift; sourceTree = "<group>"; };
 		804272082BA8B2BC007EF091 /* ExploreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreView.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				80A257F42BB49F6B00716156 /* ClothingModel.swift */,
+				803903082BB85CDB00582190 /* CartModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -303,6 +306,7 @@
 				808A18692BA21235009F4AA7 /* ContentView.swift in Sources */,
 				8043C7E42BA4BBF300AC670E /* HomeView.swift in Sources */,
 				80DDF9612BB1A40600CC275E /* DetailView.swift in Sources */,
+				803903092BB85CDB00582190 /* CartModel.swift in Sources */,
 				808A18922BA2311B009F4AA7 /* WelcomeView.swift in Sources */,
 				80A257F52BB49F6B00716156 /* ClothingModel.swift in Sources */,
 				808A18672BA21235009F4AA7 /* LumsoClothingApp.swift in Sources */,

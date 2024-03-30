@@ -201,14 +201,23 @@ struct TrendingItem: View {
 
 
 
-    var body: some View{
-        VStack(alignment : .leading){
-            VStack{
-                
+    var body: some View {
+        VStack(alignment: .leading) {
+            VStack {
+               
             }
             .frame(width: 150, height: 180)
-            .background(Color.gray)
-            .cornerRadius(15)
+            .background(
+                Image(imageName)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 150, height: 180)
+                    .cornerRadius(15)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 15)
+                    .stroke(Color.black, lineWidth: 0)
+            )
             Text(itemName)
                 .lineLimit(2)
                 .padding(.trailing)
@@ -217,8 +226,6 @@ struct TrendingItem: View {
             Text("Rs.\(price)")
                 .font(.system(size: 20))
                 .bold()
-            
-            
         }
     }
 }
