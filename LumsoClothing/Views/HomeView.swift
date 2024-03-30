@@ -122,10 +122,10 @@ struct TrendingView: View {
                         .padding(.leading,30)
                     ScrollView(.horizontal,  showsIndicators: false){
                         HStack(spacing : 15){
-                            TrendingItem(imageName: "Basic B&W Stipes top", itemName: "Basic B&W Stipes top", price: "2500.00")
-                            TrendingItem(imageName: "Basic B&W Stipes top", itemName: "Round Neck Oversized", price: "2900.00")
-                            TrendingItem(imageName: "High Crop Top", itemName: "High Crop Top", price: "1500.00")
-                            TrendingItem(imageName: "Men High Tank", itemName: "Men High Tank", price: "3100.00")
+                            TrendingItem(imageName: "Trending01", itemName: "Basic B&W Stipes top", price: "2500.00")
+                            TrendingItem(imageName: "Trending02", itemName: "Men Oversized Hoodie", price: "3900.00")
+                            TrendingItem(imageName: "Trending03", itemName: "Men Jogging Pants", price: "3500.00")
+                            TrendingItem(imageName: "Trending04", itemName: "Basic Plain T-Shirt", price: "1100.00")
                          
                             
                         }

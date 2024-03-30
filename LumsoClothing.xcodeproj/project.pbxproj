@@ -8,10 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		80279C882BB0958900E2F6D2 /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80279C872BB0958900E2F6D2 /* CartView.swift */; };
+		803A2D102BB7FD4C0027601B /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803A2D0F2BB7FD4B0027601B /* UserView.swift */; };
 		803A67592BB495A8009B8659 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 803A67582BB495A8009B8659 /* Kingfisher */; };
 		803A67602BB49771009B8659 /* ClothingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803A675F2BB49771009B8659 /* ClothingViewModel.swift */; };
 		804272092BA8B2BC007EF091 /* ExploreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804272082BA8B2BC007EF091 /* ExploreView.swift */; };
 		8043C7E42BA4BBF300AC670E /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8043C7E32BA4BBF300AC670E /* HomeView.swift */; };
+		805E66FB2BB8179F0033DB8C /* SimpleToast in Frameworks */ = {isa = PBXBuildFile; productRef = 805E66FA2BB8179F0033DB8C /* SimpleToast */; };
 		808A18672BA21235009F4AA7 /* LumsoClothingApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808A18662BA21235009F4AA7 /* LumsoClothingApp.swift */; };
 		808A18692BA21235009F4AA7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808A18682BA21235009F4AA7 /* ContentView.swift */; };
 		808A186B2BA2123B009F4AA7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 808A186A2BA2123B009F4AA7 /* Assets.xcassets */; };
@@ -42,6 +44,7 @@
 
 /* Begin PBXFileReference section */
 		80279C872BB0958900E2F6D2 /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
+		803A2D0F2BB7FD4B0027601B /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		803A675F2BB49771009B8659 /* ClothingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClothingViewModel.swift; sourceTree = "<group>"; };
 		804272082BA8B2BC007EF091 /* ExploreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreView.swift; sourceTree = "<group>"; };
 		8043C7E32BA4BBF300AC670E /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -62,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				805E66FB2BB8179F0033DB8C /* SimpleToast in Frameworks */,
 				803A67592BB495A8009B8659 /* Kingfisher in Frameworks */,
 				80A257F32BB49C2900716156 /* AlamofireDynamic in Frameworks */,
 				80A257F12BB49C2900716156 /* Alamofire in Frameworks */,
@@ -149,6 +153,7 @@
 				804272082BA8B2BC007EF091 /* ExploreView.swift */,
 				80279C872BB0958900E2F6D2 /* CartView.swift */,
 				80DDF9602BB1A40600CC275E /* DetailView.swift */,
+				803A2D0F2BB7FD4B0027601B /* UserView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -173,6 +178,7 @@
 				803A67582BB495A8009B8659 /* Kingfisher */,
 				80A257F02BB49C2900716156 /* Alamofire */,
 				80A257F22BB49C2900716156 /* AlamofireDynamic */,
+				805E66FA2BB8179F0033DB8C /* SimpleToast */,
 			);
 			productName = LumsoClothing;
 			productReference = 808A18632BA21235009F4AA7 /* LumsoClothing.app */;
@@ -249,6 +255,7 @@
 			packageReferences = (
 				803A67572BB495A8009B8659 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				803A675A2BB49642009B8659 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				805E66F92BB8179F0033DB8C /* XCRemoteSwiftPackageReference "SimpleToast" */,
 			);
 			productRefGroup = 808A18642BA21235009F4AA7 /* Products */;
 			projectDirPath = "";
@@ -299,6 +306,7 @@
 				808A18922BA2311B009F4AA7 /* WelcomeView.swift in Sources */,
 				80A257F52BB49F6B00716156 /* ClothingModel.swift in Sources */,
 				808A18672BA21235009F4AA7 /* LumsoClothingApp.swift in Sources */,
+				803A2D102BB7FD4C0027601B /* UserView.swift in Sources */,
 				803A67602BB49771009B8659 /* ClothingViewModel.swift in Sources */,
 				804272092BA8B2BC007EF091 /* ExploreView.swift in Sources */,
 			);
@@ -639,6 +647,14 @@
 				minimumVersion = 5.9.0;
 			};
 		};
+		805E66F92BB8179F0033DB8C /* XCRemoteSwiftPackageReference "SimpleToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sanzaru/SimpleToast";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.8.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -646,6 +662,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 803A67572BB495A8009B8659 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		805E66FA2BB8179F0033DB8C /* SimpleToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 805E66F92BB8179F0033DB8C /* XCRemoteSwiftPackageReference "SimpleToast" */;
+			productName = SimpleToast;
 		};
 		80A257F02BB49C2900716156 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;

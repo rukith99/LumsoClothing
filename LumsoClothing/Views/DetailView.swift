@@ -7,12 +7,15 @@
 
 import SwiftUI
 import Kingfisher
+import SimpleToast
 
 
 struct DetailView: View {
     var clothingItem: ClothingItem
     @State private var selectedColorIndex = 1
     @State private var selectedSize: String? = nil
+    @State private var showToast = false
+    @State private var value = 0
     @ObservedObject var cartManager: CartManager
     
     var selectedColor: String {
@@ -26,6 +29,14 @@ struct DetailView: View {
     private func isSizeSelected(_ size: String) -> Bool {
         return selectedSize == size
     }
+    
+    private let toastOptions = SimpleToastOptions(
+        alignment: .top,
+        hideAfter: 2,
+        backdropColor: Color.black.opacity(0.2),
+        animation: .default,
+        modifierType: .slide
+    )
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -87,9 +98,17 @@ struct DetailView: View {
             Spacer()
             
             Button(action: {
+                
                 guard let selectedSize = selectedSize else { return }
-                let newItem = CartItem(title: clothingItem.title, size: selectedSize, color: clothingItem.colors[selectedColorIndex], price: clothingItem.price)
-                cartManager.addToCart(item: newItem)
+                
+                if selectedSize != nil {
+                    let newItem = CartItem(title: clothingItem.title, size: selectedSize, color: clothingItem.colors[selectedColorIndex], price: clothingItem.price)
+                    cartManager.addToCart(item: newItem)
+                    showToast.toggle()
+                } else {
+                    showToast.toggle()
+                }
+                
             }) {
                 Text("Add to Cart")
                     .font(.headline)
@@ -99,6 +118,19 @@ struct DetailView: View {
                     .background(Color.black)
                     .cornerRadius(100)
             }
+        }
+        .simpleToast(isPresented: $showToast, options: toastOptions, onDismiss: {
+            value += 1
+        }) {
+            HStack {
+                Image(systemName: "checkmark.circle.fill").foregroundColor(.green)
+                Text(selectedSize  != nil ? "Product added to cart successfully!" : "Please select a size").bold()
+            }
+            .padding(20)
+            .background(Color.white)
+            .foregroundColor(Color.black)
+            .cornerRadius(14)
+            .shadow(color:.black.opacity(0.2), radius: 14, x:0, y:4)
         }
         .padding()
         .navigationBarTitle(Text("Product Detail"), displayMode: .inline)

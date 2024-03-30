@@ -22,7 +22,7 @@ struct ExploreView: View {
     @State private var selectedCategory: String? = nil
     
     // Categories
-    let categories = ["All", "Tops", "Shorts", "T Shirts"]
+    let categories = ["All", "Tops", "Shorts", "Pants", "Accessories"]
     
     var body: some View {
         NavigationView {

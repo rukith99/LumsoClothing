@@ -34,6 +34,12 @@ struct ContentView: View {
                             Label("Cart", systemImage: "cart")
                         }
                         .tag(2)
+                    
+                    UserView() // Pass the same cartManager instance
+                        .tabItem {
+                            Label("User", systemImage: "person")
+                        }
+                        .tag(3)
                 }
             } else {
                 // If the app is launched for the first time, show the WelcomeView as splash screen
