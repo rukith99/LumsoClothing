@@ -126,10 +126,9 @@ struct TrendingView: View {
                             TrendingItem(imageName: "Trending02", itemName: "Men Oversized Hoodie", price: "3900.00")
                             TrendingItem(imageName: "Trending03", itemName: "Men Jogging Pants", price: "3500.00")
                             TrendingItem(imageName: "Trending04", itemName: "Basic Plain T-Shirt", price: "1100.00")
-                         
-                            
                         }
                         .padding(.leading)
+                        .padding(.bottom)
                         
                     }
                 }

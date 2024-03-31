@@ -137,13 +137,15 @@ struct SearchItemsView: View {
                             }
                             HStack{
                                 Text("\(item.title)")
-                                    .font(.system(size: 20))
+                                    .font(.system(size: 14))
+                                    .foregroundColor(.gray)
                                     .fontWeight(.semibold)
                                     .multilineTextAlignment(.leading)
                                 Spacer()
                             }
                             HStack{
                                 Text("Rs \(String(format: "%.2f", item.price))")
+                                    .fontWeight(.bold)
                                     .padding(.bottom)
                                     .multilineTextAlignment(.leading)
                                 Spacer()
@@ -168,8 +170,8 @@ struct SearchArea: View {
             Image(systemName: "magnifyingglass")
         }
         .padding(.horizontal)
-        .padding(.vertical, 10)
-        .background(Color.black.opacity(0.1))
+        .padding(.vertical, 12)
+        .background(Color.gray.opacity(0.1))
         .cornerRadius(10)
         .padding(.bottom)
     }

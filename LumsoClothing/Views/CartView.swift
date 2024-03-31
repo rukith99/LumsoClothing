@@ -46,59 +46,78 @@ class CartManager: ObservableObject {
     func removeFromCart(at indexSet: IndexSet) {
         items.remove(atOffsets: indexSet)
     }
+    
+    func removeAllItems() {
+            items.removeAll()
+        }
 }
+
 
 struct CartView: View {
     @ObservedObject var cartManager: CartManager
     
     var totalPrice: Double {
-        // Calculate the total price by summing up the prices of all items
         cartManager.items.reduce(0) { $0 + $1.price }
     }
     
     var body: some View {
-        VStack {
-            List {
-                ForEach(cartManager.items, id: \.title) { item in
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text(item.title)
-                            .font(.headline)
-                        Text("Size: \(item.size)")
-                        Text("Color: \(item.color)")
-                        Text(String(format: "Price: $%.2f", item.price))
-                            .font(.caption)
-                            .foregroundColor(.gray)
+        NavigationView { // Embedding CartView in a NavigationView
+            VStack {
+                List {
+                    ForEach(cartManager.items, id: \.title) { item in
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(item.title)
+                                .font(.headline)
+                            Text("Size: \(item.size)")
+                            Text("Color: \(item.color)")
+                            Text(String(format: "Price: $%.2f", item.price))
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                        }
+                    }
+                    .onDelete { indexSet in
+                        cartManager.removeFromCart(at: indexSet)
                     }
                 }
-                .onDelete { indexSet in
-                    cartManager.removeFromCart(at: indexSet)
+                .navigationBarTitle("My Cart")
+                
+                VStack {
+                    HStack {
+                        Spacer()
+                        Text("Total: Rs \(totalPrice, specifier: "%.2f")")
+                            .font(.headline)
+                            .padding()
+                        Spacer()
+                    }
+                    NavigationLink(destination: CheckoutView(cartManager: cartManager, totalPrice: Int(totalPrice))) { // Passing cartManager and totalPrice
+                        Text("Go to Checkout")
+                            .font(.headline)
+                            .foregroundColor(.black)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 40)
+                            .background(Color.white)
+                            .cornerRadius(10)
+                            .padding(.bottom)
+                            .padding(.horizontal)
+                    }
                 }
+                .background(Color.black)
+                .foregroundColor(.white)
             }
-            .navigationBarTitle("Cart")
-            
-            // Display total price at the bottom
-            HStack {
-                Spacer()
-                Text("Total: $\(totalPrice, specifier: "%.2f")")
-                    .font(.headline)
-                    .padding()
-                Spacer()
-            }
-        }
-        .onAppear {
-            // Reload the data when the view appears
-            // This ensures that the view updates when the data changes
-            DispatchQueue.main.async {
-                cartManager.objectWillChange.send()
-            }
-            
-            print("Items in the cart:")
-            for item in cartManager.items {
-                print("- \(item.title), Size: \(item.size), Color: \(item.color), Price: \(item.price)")
+            .onAppear {
+                
+                    cartManager.objectWillChange.send()
+               
+                
+                print("Items in the cart:")
+                for item in cartManager.items {
+                    print("- \(item.title), Size: \(item.size), Color: \(item.color), Price: \(item.price)")
+                }
             }
         }
     }
 }
+
 
 
 #Preview {

@@ -23,6 +23,7 @@
 		80A257F12BB49C2900716156 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 80A257F02BB49C2900716156 /* Alamofire */; };
 		80A257F32BB49C2900716156 /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 80A257F22BB49C2900716156 /* AlamofireDynamic */; };
 		80A257F52BB49F6B00716156 /* ClothingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A257F42BB49F6B00716156 /* ClothingModel.swift */; };
+		80A42DC42BB920A800BCE924 /* CheckoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A42DC32BB920A800BCE924 /* CheckoutView.swift */; };
 		80DDF9612BB1A40600CC275E /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DDF9602BB1A40600CC275E /* DetailView.swift */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +60,7 @@
 		808A187D2BA2123C009F4AA7 /* LumsoClothingUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LumsoClothingUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		808A18912BA2311B009F4AA7 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		80A257F42BB49F6B00716156 /* ClothingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClothingModel.swift; sourceTree = "<group>"; };
+		80A42DC32BB920A800BCE924 /* CheckoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutView.swift; sourceTree = "<group>"; };
 		80DDF9602BB1A40600CC275E /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -157,6 +159,7 @@
 				80279C872BB0958900E2F6D2 /* CartView.swift */,
 				80DDF9602BB1A40600CC275E /* DetailView.swift */,
 				803A2D0F2BB7FD4B0027601B /* UserView.swift */,
+				80A42DC32BB920A800BCE924 /* CheckoutView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -304,6 +307,7 @@
 			files = (
 				80279C882BB0958900E2F6D2 /* CartView.swift in Sources */,
 				808A18692BA21235009F4AA7 /* ContentView.swift in Sources */,
+				80A42DC42BB920A800BCE924 /* CheckoutView.swift in Sources */,
 				8043C7E42BA4BBF300AC670E /* HomeView.swift in Sources */,
 				80DDF9612BB1A40600CC275E /* DetailView.swift in Sources */,
 				803903092BB85CDB00582190 /* CartModel.swift in Sources */,

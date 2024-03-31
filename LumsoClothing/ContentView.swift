@@ -41,6 +41,8 @@ struct ContentView: View {
                         }
                         .tag(3)
                 }
+                .background(Color.black)
+                
             } else {
                 // If the app is launched for the first time, show the WelcomeView as splash screen
                 WelcomeView(isAppLaunchedBefore: $isAppLaunchedBefore)
